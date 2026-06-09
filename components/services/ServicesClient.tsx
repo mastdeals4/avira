@@ -57,36 +57,40 @@ export default function ServicesClient() {
 
   return (
     <div className="bg-white">
-      <div className="border-b border-gray-100">
-        <div className="container-main py-8 lg:py-10">
-          <p className="text-brand-navy/50 text-xs font-semibold uppercase tracking-widest mb-2">{lang === 'id' ? 'Layanan' : 'Services'}</p>
-          <h1 className="font-serif text-3xl md:text-4xl text-brand-navy mb-3">
-            {lang === 'id' ? 'Dukungan Pasokan & Dokumentasi' : 'Supply & Documentation Support'}
-          </h1>
-          <p className="text-sm text-gray-600 max-w-3xl leading-relaxed">
-            {lang === 'id'
-              ? 'Dukungan ringkas untuk stok lokal, sourcing global, operasional sesuai CDOB, dan kebutuhan dokumen procurement, QA, serta BPOM.'
-              : 'Practical support for local stock, global sourcing, CDOB-compliant operations, and documentation needs across procurement, QA, and BPOM-related processes.'}
-          </p>
+      <div className="bg-brand-navy">
+        <div className="container-main py-14 lg:py-18">
+          <div className="max-w-3xl">
+            <p className="text-brand-green text-[11px] font-bold uppercase tracking-[0.15em] mb-3">
+              {lang === 'id' ? 'Layanan' : 'Services'}
+            </p>
+            <h1 className="font-serif text-[2.25rem] md:text-[2.75rem] text-white leading-tight mb-4">
+              {lang === 'id' ? 'Dukungan Pasokan & Dokumentasi' : 'Supply & Documentation Support'}
+            </h1>
+            <p className="text-white/65 text-[15px] leading-relaxed max-w-2xl">
+              {lang === 'id'
+                ? 'Dukungan ringkas untuk stok lokal, sourcing global, operasional sesuai CDOB, dan kebutuhan dokumen procurement, QA, serta BPOM.'
+                : 'Practical support for local stock, global sourcing, CDOB-compliant operations, and documentation needs across procurement, QA, and BPOM-related processes.'}
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="section-padding bg-[#F7FAFC]">
+      <div className="py-14 lg:py-18 bg-[#F4F7FA]">
         <div className="container-main">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
             {serviceCards.map(({ icon: Icon, titleEn, titleId, descEn, descId }, idx) => (
-              <article key={titleEn} className="bg-white border border-gray-200 rounded-lg p-5 hover:border-brand-navy/20 hover:shadow-md transition-all duration-200">
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-lg border border-brand-navy/10 bg-brand-navy/5 flex items-center justify-center flex-shrink-0">
-                    <Icon size={20} className="text-brand-navy" strokeWidth={1.4} />
+              <article key={titleEn} className="bg-white border border-gray-200 rounded-xl p-6 hover:border-brand-navy/20 hover:shadow-[0_8px_32px_rgba(12,35,64,0.12)] transition-all duration-200">
+                <div className="flex items-start justify-between gap-3 mb-5">
+                  <div className="w-11 h-11 rounded-xl bg-brand-navy/6 flex items-center justify-center flex-shrink-0">
+                    <Icon size={21} className="text-brand-navy" strokeWidth={1.4} />
                   </div>
-                  <span className="text-[10px] text-gray-300 font-bold tracking-widest mt-1">0{idx + 1}</span>
+                  <span className="text-[11px] text-gray-200 font-bold tracking-widest mt-1">0{idx + 1}</span>
                 </div>
-                <div className="w-6 h-px bg-brand-green mb-3" />
-                <h2 className="text-xs font-bold text-brand-navy mb-2 leading-snug tracking-wide uppercase">
+                <div className="w-8 h-[3px] bg-brand-green rounded-full mb-4" />
+                <h2 className="text-[11.5px] font-bold text-brand-navy mb-2.5 leading-snug tracking-wide uppercase">
                   {lang === 'id' ? titleId : titleEn}
                 </h2>
-                <p className="text-xs text-gray-500 leading-relaxed">
+                <p className="text-[12.5px] text-gray-500 leading-relaxed">
                   {lang === 'id' ? descId : descEn}
                 </p>
               </article>
@@ -95,23 +99,23 @@ export default function ServicesClient() {
         </div>
       </div>
 
-      <div className="section-padding bg-white">
+      <div className="py-14 lg:py-18 bg-white">
         <div className="container-main">
-          <section className="border border-gray-200 rounded-lg overflow-hidden">
-            <div className="relative bg-brand-navy p-6 overflow-hidden">
-              <MoleculeWatermark className="absolute inset-0 w-full h-full text-white opacity-[0.06] pointer-events-none" />
+          <div className="border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+            <div className="relative bg-brand-navy p-8 overflow-hidden">
+              <MoleculeWatermark className="absolute inset-0 w-full h-full text-white opacity-[0.04] pointer-events-none" />
               <div className="relative z-10 flex items-start gap-4 max-w-4xl">
-                <div className="w-10 h-10 rounded border border-white/15 bg-white/10 flex items-center justify-center flex-shrink-0">
-                  <ShieldCheck size={20} className="text-brand-green" strokeWidth={1.6} />
+                <div className="w-11 h-11 rounded-xl border border-white/15 bg-white/10 flex items-center justify-center flex-shrink-0">
+                  <ShieldCheck size={21} className="text-brand-green" strokeWidth={1.6} />
                 </div>
                 <div>
-                  <p className="text-brand-green text-xs font-semibold uppercase tracking-widest mb-2">
+                  <p className="text-brand-green text-[11px] font-bold uppercase tracking-[0.15em] mb-2">
                     {lang === 'id' ? 'Kepatuhan' : 'Compliance'}
                   </p>
-                  <h2 className="font-serif text-2xl text-white mb-2">
+                  <h2 className="font-serif text-[1.5rem] md:text-2xl text-white mb-2">
                     {lang === 'id' ? 'Distributor Tersertifikasi CDOB' : 'CDOB Certified Distributor'}
                   </h2>
-                  <p className="text-sm text-white/70 leading-relaxed">
+                  <p className="text-white/65 text-[14px] leading-relaxed">
                     {lang === 'id'
                       ? 'Aktivitas penyimpanan, penanganan, ketertelusuran, dan distribusi dikelola sejalan dengan prinsip CDOB untuk bahan baku farmasi.'
                       : 'Storage, handling, traceability, and distribution activities are managed in line with CDOB principles for pharmaceutical raw materials.'}
@@ -119,27 +123,26 @@ export default function ServicesClient() {
                 </div>
               </div>
             </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-100">
               {complianceItems.map(([label, value]) => (
-                <div key={label} className="bg-white p-4 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-start gap-2.5">
+                <div key={label} className="bg-white p-5 hover:bg-[#F4F7FA] transition-colors">
+                  <div className="flex items-start gap-3">
                     <CircleCheck size={14} className="text-brand-green mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-brand-navy">{label}</p>
-                      <p className="text-xs text-gray-500 mt-1 leading-relaxed">{value}</p>
+                      <p className="text-[11.5px] font-semibold uppercase tracking-wide text-brand-navy">{label}</p>
+                      <p className="text-[12px] text-gray-500 mt-1 leading-relaxed">{value}</p>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-          </section>
+          </div>
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/products" className="btn-primary px-5 py-2.5">
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link href="/products" className="btn-primary px-6 py-3">
               {lang === 'id' ? 'Lihat Produk' : 'Browse Products'}
             </Link>
-            <Link href="/contact" className="border border-brand-navy/20 bg-brand-navy/5 text-brand-navy hover:bg-brand-navy/10 font-semibold px-5 py-2.5 rounded text-sm transition-colors">
+            <Link href="/contact" className="border border-brand-navy/20 bg-brand-navy/5 text-brand-navy hover:bg-brand-navy/10 font-semibold px-6 py-3 rounded-lg text-sm transition-colors">
               {lang === 'id' ? 'Hubungi Kami' : 'Contact Us'}
             </Link>
           </div>
