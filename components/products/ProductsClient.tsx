@@ -11,6 +11,8 @@ import CategoryFilterBar, { getCategoryBadgeClass } from './CategoryFilterBar';
 import EnquiryPanel, { type EnquiryItem } from './EnquiryPanel';
 import { getCategoryLabel, getSubCategoryLabel } from './displayLabels';
 
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 type Props = {
   products: Product[];
   categories: string[];
@@ -32,6 +34,7 @@ export default function ProductsClient({
   const [isPending, startTransition] = useTransition();
 
   const [search, setSearch] = useState('');
+  const [letterFilter, setLetterFilter] = useState('');
   const [openRow, setOpenRow] = useState<string | null>(null);
   const [enquiryItems, setEnquiryItems] = useState<EnquiryItem[]>([]);
 
@@ -52,11 +55,13 @@ export default function ProductsClient({
 
   const clearFilters = () => {
     setSearch('');
+    setLetterFilter('');
     setOpenRow(null);
     startTransition(() => router.push(pathname));
   };
 
   const handleCategoryChange = (cat: string) => {
+    setLetterFilter('');
     applyFilter({ category: cat, sub_category: '' });
   };
 
@@ -73,8 +78,15 @@ export default function ProductsClient({
   };
 
   const filtered = useMemo(() => {
-    return searchProducts(search, products);
-  }, [products, search]);
+    let results = searchProducts(search, products);
+    if (letterFilter) {
+      results = results.filter((p) => {
+        const name = lang === 'en' ? p.name_en : (p.name_id || p.name_en);
+        return name.toUpperCase().startsWith(letterFilter);
+      });
+    }
+    return results;
+  }, [products, search, letterFilter, lang]);
 
   const enquiredIds = new Set(enquiryItems.map((i) => i.id));
 
@@ -90,7 +102,7 @@ export default function ProductsClient({
             <p className="text-xs text-gray-500">
               <span className="font-semibold text-gray-700">{filtered.length}</span> {t('products')}
               {initialCategory && (
-                <span className="ml-1.5 font-medium text-brand-blue">· {getCategoryLabel(initialCategory, lang)}</span>
+                <span className="ml-1.5 font-medium text-brand-navy">· {getCategoryLabel(initialCategory, lang)}</span>
               )}
               {initialSubCategory && (
                 <span className="ml-1.5 font-medium text-brand-green">· {getSubCategoryLabel(initialSubCategory, lang)}</span>
@@ -113,15 +125,14 @@ export default function ProductsClient({
                 </select>
               )}
 
-              {/* Search */}
               <div className="relative min-w-0">
                 <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => { setSearch(e.target.value); setLetterFilter(''); }}
                   placeholder={t('search_placeholder')}
-                  className="pl-8 pr-7 py-2 sm:py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-blue focus:border-brand-blue w-full sm:w-56"
+                  className="pl-8 pr-7 py-2 sm:py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-navy focus:border-brand-navy w-full sm:w-56"
                 />
                 {search && (
                   <button onClick={() => setSearch('')} className="absolute right-2 top-1/2 -translate-y-1/2">
@@ -130,10 +141,10 @@ export default function ProductsClient({
                 )}
               </div>
 
-              {(search || initialCategory || initialSubCategory) && (
+              {(search || initialCategory || initialSubCategory || letterFilter) && (
                 <button
                   onClick={clearFilters}
-                  className="text-xs text-gray-400 hover:text-brand-green flex items-center gap-1"
+                  className="text-xs text-gray-400 hover:text-brand-navy flex items-center gap-1"
                 >
                   <X size={11} /> {lang === 'id' ? 'Hapus' : 'Clear'}
                 </button>
@@ -141,12 +152,34 @@ export default function ProductsClient({
             </div>
           </div>
 
+          {/* A–Z quick filter */}
+          <div className="mb-3 overflow-x-auto -mx-0.5 pb-1">
+            <div className="inline-flex items-center gap-px min-w-max px-0.5">
+              {ALPHABET.map((letter) => (
+                <button
+                  key={letter}
+                  onClick={() => {
+                    setSearch('');
+                    setLetterFilter(letterFilter === letter ? '' : letter);
+                  }}
+                  className={`w-7 h-7 text-[11px] font-semibold rounded transition-all duration-100 ${
+                    letterFilter === letter
+                      ? 'bg-brand-navy text-white'
+                      : 'text-gray-400 hover:text-brand-navy hover:bg-gray-100'
+                  }`}
+                >
+                  {letter}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <a
             href="#enquiry-form"
-            className="xl:hidden mb-4 flex items-center justify-between gap-3 rounded-lg border border-brand-blue/20 bg-brand-blue-light px-4 py-3 text-sm text-brand-navy"
+            className="xl:hidden mb-4 flex items-center justify-between gap-3 rounded-lg border border-brand-navy/15 bg-brand-navy/5 px-4 py-3 text-sm text-brand-navy"
           >
             <span className="font-semibold">{lang === 'id' ? 'Kirim pertanyaan produk' : 'Send product enquiry'}</span>
-            <span className="inline-flex items-center gap-1.5 text-brand-blue font-semibold">
+            <span className="inline-flex items-center gap-1.5 text-brand-navy font-semibold">
               <MessageCircle size={14} />
               {lang === 'id' ? 'Form' : 'Form'}
             </span>
@@ -165,6 +198,7 @@ export default function ProductsClient({
               <div className="grid grid-cols-[minmax(0,1fr)_auto] bg-brand-navy px-4 py-2.5">
                 <span className="text-xs font-semibold text-white uppercase tracking-wider truncate">
                   {lang === 'id' ? 'Daftar Produk A-Z' : 'A-Z Product List'}
+                  {letterFilter && <span className="ml-2 opacity-60">— {letterFilter}</span>}
                 </span>
                 <span className="hidden sm:block text-xs font-semibold text-white uppercase tracking-wider text-right">
                   {lang === 'id' ? 'Pertanyaan' : 'Enquire'}

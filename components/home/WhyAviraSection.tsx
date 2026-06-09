@@ -1,12 +1,13 @@
 'use client';
 
-import { FileText, Globe, PackageCheck, ShieldCheck } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Warehouse, Globe, ShieldCheck, ClipboardCheck } from 'lucide-react';
 
 import { useLanguage } from '@/lib/i18n';
 
 const items = [
   {
-    icon: PackageCheck,
+    icon: Warehouse,
     titleEn: 'LOCAL STOCK, FAST FULFILMENT',
     titleId: 'STOK LOKAL, PEMENUHAN CEPAT',
     descEn: 'We hold stock of fast-moving APIs and excipients in Jakarta, so regular requirements ship quickly without per-order import lead times.',
@@ -27,7 +28,7 @@ const items = [
     descId: 'Penyimpanan, penanganan, dan distribusi berjalan di bawah perizinan CDOB pada setiap tahap.',
   },
   {
-    icon: FileText,
+    icon: ClipboardCheck,
     titleEn: 'DOCUMENTATION & BPOM SUPPORT',
     titleId: 'DUKUNGAN DOKUMEN & BPOM',
     descEn: 'COA, MSDS/SDS, GMP statements, and Certificate of Origin provided, with hands-on BPOM import documentation support.',
@@ -37,13 +38,16 @@ const items = [
 
 export default function WhyAviraSection() {
   const { lang } = useLanguage();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   return (
     <section className="py-10 lg:py-12 bg-white">
       <div className="container-main">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
           <div className="max-w-2xl min-w-0">
-            <p className="text-brand-blue text-xs font-semibold uppercase tracking-widest mb-3">
+            <p className="text-brand-navy/50 text-xs font-semibold uppercase tracking-widest mb-3">
               {lang === 'id' ? 'Keunggulan Layanan' : 'Supply Support'}
             </p>
             <h2 className="section-title break-words">{lang === 'id' ? 'Pasokan, Sourcing, dan Dokumen' : 'Supply, Sourcing, and Documentation'}</h2>
@@ -52,17 +56,18 @@ export default function WhyAviraSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
           {items.map(({ icon: Icon, titleEn, titleId, descEn, descId }, idx) => (
-            <div key={titleEn} className="bg-white border border-gray-200 rounded-lg p-5 hover:border-brand-blue/30 hover:shadow-sm transition-all min-w-0">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-9 h-9 rounded border border-brand-blue/15 bg-brand-blue-light flex items-center justify-center flex-shrink-0">
-                  <Icon size={18} className="text-brand-blue" strokeWidth={1.5} />
+            <div key={titleEn} className="group bg-white border border-gray-200 rounded-lg p-5 hover:border-brand-navy/25 hover:shadow-md transition-all duration-200 min-w-0">
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg border border-brand-navy/12 bg-brand-navy/5 group-hover:bg-brand-navy/8 flex items-center justify-center flex-shrink-0 transition-colors">
+                  {mounted && <Icon size={20} className="text-brand-navy" strokeWidth={1.4} />}
                 </div>
-                <span className="text-[10px] text-gray-300 font-semibold tracking-wide">0{idx + 1}</span>
+                <span className="text-[10px] text-gray-300 font-bold tracking-widest mt-1">0{idx + 1}</span>
               </div>
-              <h3 className="text-sm font-semibold text-brand-navy mb-2 leading-snug">
+              <div className="w-6 h-px bg-brand-green mb-3" />
+              <h3 className="text-xs font-bold text-brand-navy mb-2 leading-snug tracking-wide uppercase">
                 {lang === 'id' ? titleId : titleEn}
               </h3>
-              <p className="text-xs text-gray-600 leading-relaxed break-words">
+              <p className="text-xs text-gray-500 leading-relaxed break-words">
                 {lang === 'id' ? descId : descEn}
               </p>
             </div>

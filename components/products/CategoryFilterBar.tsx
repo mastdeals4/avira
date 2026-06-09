@@ -1,7 +1,7 @@
 'use client';
 
 import type { ElementType } from 'react';
-import { FlaskConical, Layers, Leaf, Pill, Sparkles, Droplets, Beaker, Package, X } from 'lucide-react';
+import { Atom, Droplets, Leaf, Microscope, Package, Pill, Sparkles, TestTube as TestTube2, X } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { getCategoryLabel } from './displayLabels';
 
@@ -15,13 +15,13 @@ export type CategoryDef = {
 const CATEGORY_META: Record<string, Omit<CategoryDef, 'value'>> = {
   API: {
     label: 'API',
-    icon: FlaskConical,
-    badgeClass: 'bg-brand-blue-light text-brand-navy border-brand-blue/20',
+    icon: Atom,
+    badgeClass: 'bg-brand-navy/8 text-brand-navy border-brand-navy/15',
   },
   Excipient: {
     label: 'Excipient',
-    icon: Layers,
-    badgeClass: 'bg-brand-green-light text-brand-navy border-brand-green/25',
+    icon: TestTube2,
+    badgeClass: 'bg-brand-blue-light text-brand-navy border-brand-blue/20',
   },
   'Herbal Extract': {
     label: 'Herbal Extract',
@@ -45,7 +45,7 @@ const CATEGORY_META: Record<string, Omit<CategoryDef, 'value'>> = {
   },
   Probiotic: {
     label: 'Probiotic',
-    icon: Beaker,
+    icon: Microscope,
     badgeClass: 'bg-brand-green-light text-brand-green-dark border-brand-green/25',
   },
 };
@@ -71,32 +71,32 @@ export default function CategoryFilterBar({ activeCategory, categories, onChange
   return (
     <div className="w-full max-w-full overflow-x-auto sm:overflow-visible">
       <div className="inline-flex sm:flex sm:flex-wrap gap-2 min-w-0 pb-1 pr-4 sm:pr-0">
-      <button
-        onClick={() => onChange('')}
-        className={`flex items-center gap-2 px-3.5 py-2 rounded-lg border text-xs font-semibold whitespace-nowrap transition-all duration-150 ${
-          activeCategory === ''
-            ? 'bg-brand-green text-white border-brand-green shadow-sm'
-            : 'bg-white text-gray-600 border-gray-200 hover:border-brand-blue hover:text-brand-blue'
-        }`}
-      >
-        {activeCategory === '' && <X size={11} />}
-        {t('all_categories')}
-      </button>
-
-      {categoryDefs.map(({ value, label, icon: Icon }) => (
         <button
-          key={value}
-          onClick={() => onChange(activeCategory === value ? '' : value)}
+          onClick={() => onChange('')}
           className={`flex items-center gap-2 px-3.5 py-2 rounded-lg border text-xs font-semibold whitespace-nowrap transition-all duration-150 ${
-            activeCategory === value
-            ? 'bg-brand-green text-white border-brand-green shadow-sm'
-              : 'bg-white text-gray-600 border-gray-200 hover:border-brand-blue hover:text-brand-blue'
+            activeCategory === ''
+              ? 'bg-brand-navy text-white border-brand-navy shadow-sm'
+              : 'bg-white text-gray-600 border-gray-200 hover:border-brand-navy/40 hover:text-brand-navy'
           }`}
         >
-          <Icon size={13} strokeWidth={1.75} />
-          {label}
+          {activeCategory === '' && <X size={11} />}
+          {t('all_categories')}
         </button>
-      ))}
+
+        {categoryDefs.map(({ value, label, icon: Icon }) => (
+          <button
+            key={value}
+            onClick={() => onChange(activeCategory === value ? '' : value)}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg border text-xs font-semibold whitespace-nowrap transition-all duration-150 ${
+              activeCategory === value
+                ? 'bg-brand-navy text-white border-brand-navy shadow-sm'
+                : 'bg-white text-gray-600 border-gray-200 hover:border-brand-navy/40 hover:text-brand-navy'
+            }`}
+          >
+            <Icon size={13} strokeWidth={1.75} />
+            {label}
+          </button>
+        ))}
       </div>
     </div>
   );
